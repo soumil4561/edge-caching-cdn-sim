@@ -1,0 +1,25 @@
+{
+  "name": "edge-caching",
+  "version": "1.0.0",
+  "description": "Edge Caching Optimization in 5G Networks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soumil4561/edge-caching-sim-5G.git"
+  },
+  "author": "Soumil Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soumil4561/edge-caching-sim-5G/issues"
+  },
+  "homepage": "https://github.com/soumil4561/edge-caching-sim-5G#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7",
+    "redis": "^4.7.0"
+  }
+}

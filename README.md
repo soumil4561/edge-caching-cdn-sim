@@ -1,2 +1,2 @@
-# edge-caching-sim-5G
-Edge Caching Optimization in 5G Networks
+# edge-caching-sim
+Simulating how CDNs work by caching content and reducing load on origin servers

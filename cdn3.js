@@ -9,6 +9,10 @@ const MAIN_SERVER_URL = "http://localhost:3000";
 let cacheHits = 0;
 let cacheMisses = 0;
 
+app.get("/",(req,res)=>{
+    res.send("Hello from server 3");
+})
+
 app.get("/download/:filename", async (req, res) => {
     const { filename } = req.params;
     const cacheKey = `file:${filename}`;

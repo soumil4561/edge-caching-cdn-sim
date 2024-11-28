@@ -19,7 +19,9 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.7",
+    "performance-now": "^2.1.0",
     "redis": "^4.7.0"
   }
 }

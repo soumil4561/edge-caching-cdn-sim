@@ -1,0 +1,114 @@
+# version: '3.8'
+
+# services:
+#   load-balancer:
+#     image: nginx
+#     container_name: nginx-load-balancer
+#     volumes:
+#       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+#     ports:
+#       - "80:80"
+#     depends_on:
+#       - edge-server-1
+#       - edge-server-2
+#       - edge-server-3
+
+#   edge-server-1:
+#     image: nginx
+#     container_name: edge-server-1
+#     volumes:
+#       - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+#     ports:
+#       - "3001:80"
+#     networks:
+#       - cdn-network
+
+#   edge-server-2:
+#     image: nginx
+#     container_name: edge-server-2
+#     volumes:
+#       - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+#     ports:
+#       - "3002:80"
+#     networks:
+#       - cdn-network
+
+#   edge-server-3:
+#     image: nginx
+#     container_name: edge-server-3
+#     volumes:
+#       - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+#     ports:
+#       - "3003:80"
+#     networks:
+#       - cdn-network
+
+# networks:
+#   cdn-network:
+#     driver: bridge
+
+version: '3.8'
+
+services:
+  load-balancer:
+    image: nginx
+    container_name: nginx-load-balancer
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - edge-server-1
+      - edge-server-2
+      - edge-server-3
+
+  edge-server-1:
+    image: nginx
+    container_name: edge-server-1
+    volumes:
+      - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "3001:80"
+    networks:
+      - cdn-network
+
+  edge-server-2:
+    image: nginx
+    container_name: edge-server-2
+    volumes:
+      - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "3002:80"
+    networks:
+      - cdn-network
+
+  edge-server-3:
+    image: nginx
+    container_name: edge-server-3
+    volumes:
+      - ./edge-nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "3003:80"
+    networks:
+      - cdn-network
+
+  backend-server:
+    image: node:18  # Use Node.js image
+    container_name: backend-server
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app  # Mount current directory to /usr/src/app inside the container
+      - ./public:/usr/src/app/public  # Mount the 'public' directory for static files
+    command: ["npx", "nodemon", "nginx.backend.js"]  # Run with nodemon using npx
+    ports:
+      - "8080:8080"  # Expose the backend server on port 8080
+    networks:
+      - cdn-network
+    depends_on:
+      - edge-server-1
+      - edge-server-2
+      - edge-server-3
+
+networks:
+  cdn-network:
+    driver: bridge

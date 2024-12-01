@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+        h2 {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Health Check</h1>
+    <p>Details about the system, server health, and request statistics:</p>
+    
+    <!-- System Health -->
+    <h2>System Health</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Uptime</td>
+            <td id="uptime">Loading...</td>
+        </tr>
+        <tr>
+            <td>Memory Usage</td>
+            <td id="memoryUsage">Loading...</td>
+        </tr>
+        <tr>
+            <td>CPU Usage</td>
+            <td id="cpuUsage">Loading...</td>
+        </tr>
+        <tr>
+            <td>Platform</td>
+            <td id="platform">Loading...</td>
+        </tr>
+        <tr>
+            <td>Architecture</td>
+            <td id="arch">Loading...</td>
+        </tr>
+        <tr>
+            <td>Hostname</td>
+            <td id="hostname">Loading...</td>
+        </tr>
+    </table>
+    
+    <!-- Request Statistics -->
+    <h2>Request Statistics</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Total Requests</td>
+            <td id="totalRequests">Loading...</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td id="getRequests">Loading...</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td id="postRequests">Loading...</td>
+        </tr>
+        <tr>
+            <td>PUT</td>
+            <td id="putRequests">Loading...</td>
+        </tr>
+        <tr>
+            <td>DELETE</td>
+            <td id="deleteRequests">Loading...</td>
+        </tr>
+        <tr>
+            <td>OTHER</td>
+            <td id="otherRequests">Loading...</td>
+        </tr>
+    </table>
+
+    <script>
+        fetch('/health/json')
+            .then(response => response.json())
+            .then(data => {
+                // System Health
+                document.getElementById('uptime').textContent = data.uptime + ' seconds';
+                document.getElementById('memoryUsage').textContent = JSON.stringify(data.memoryUsage, null, 2);
+                document.getElementById('cpuUsage').textContent = JSON.stringify(data.cpuUsage, null, 2);
+                document.getElementById('platform').textContent = data.platform;
+                document.getElementById('arch').textContent = data.arch;
+                document.getElementById('hostname').textContent = data.hostname;
+
+                // Request Statistics
+                const requestStats = data.requestStats;
+                document.getElementById('totalRequests').textContent = requestStats.total;
+                document.getElementById('getRequests').textContent = requestStats.methods.GET;
+                document.getElementById('postRequests').textContent = requestStats.methods.POST;
+                document.getElementById('putRequests').textContent = requestStats.methods.PUT;
+                document.getElementById('deleteRequests').textContent = requestStats.methods.DELETE;
+                document.getElementById('otherRequests').textContent = requestStats.methods.OTHER;
+            })
+            .catch(error => {
+                console.error('Error fetching health stats:', error);
+            });
+    </script>
+</body>
+</html>

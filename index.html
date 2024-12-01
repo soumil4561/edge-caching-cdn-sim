@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        td {
+            white-space: nowrap;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        caption {
+            caption-side: top;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>File List</h1>
+    <table>
+        <caption>Files in Public Folder</caption>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+            </tr>
+        </thead>
+        <tbody id="fileList">
+            <!-- Data will be dynamically populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Fetch file data from the /list route
+        fetch('/dir/list')
+            .then(response => response.json())
+            .then(data => {
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = ''; // Clear the table body
+
+                data.forEach(file => {
+                    const row = document.createElement('tr');
+
+                    // File Name with Link
+                    const nameCell = document.createElement('td');
+                    const link = document.createElement('a');
+                    link.href = `http://localhost/cdn/${encodeURIComponent(file.name)}`;
+                    link.textContent = file.name;
+                    nameCell.appendChild(link);
+                    row.appendChild(nameCell);
+
+                    // File Size
+                    const sizeCell = document.createElement('td');
+                    sizeCell.textContent = file.size;
+                    row.appendChild(sizeCell);
+
+                    fileList.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching file list:', error);
+                const fileList = document.getElementById('fileList');
+                const errorRow = document.createElement('tr');
+                const errorCell = document.createElement('td');
+                errorCell.textContent = 'Error loading file list';
+                errorCell.colSpan = 2;
+                errorCell.style.textAlign = 'center';
+                errorRow.appendChild(errorCell);
+                fileList.appendChild(errorRow);
+            });
+    </script>
+</body>
+</html>

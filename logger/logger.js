@@ -1,20 +1,17 @@
-// logger.js
 const morgan = require('morgan');
-const performanceNow = require('performance-now'); // Optional, for more accurate timing
+const performanceNow = require('performance-now');
 
-// Create a Morgan logging middleware
 const logger = morgan('[:date[iso]] :method :url :status :res[content-length] - :response-time ms');
 
-// Custom middleware for logging the time to process each request
 const requestTimingLogger = (req, res, next) => {
-  const start = performanceNow(); // Record start time for precise timing
+  const start = performanceNow();
   
   res.on('finish', () => {
-    const duration = (performanceNow() - start).toFixed(3); // Get the time taken to process the request
+    const duration = (performanceNow() - start).toFixed(3);
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} - ${duration}ms`);
   });
 
-  next(); // Pass to the next middleware/route handler
+  next();
 };
 
 module.exports = { logger, requestTimingLogger };

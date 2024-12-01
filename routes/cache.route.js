@@ -4,7 +4,6 @@ const redisClient = require("../config/redis.config")
 
 const CACHE_EXPIRY = 60 * 5;
 
-// Example endpoint to add content to the cache
 router.post('/', async (req, res) => {
     const { key, value } = req.body;
     if (!key || !value) return res.status(400).json({ error: 'Key and value are required' });
@@ -21,7 +20,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Endpoint to retrieve cached content
 router.get('/:key', async (req, res) => {
     const { key } = req.params;
 

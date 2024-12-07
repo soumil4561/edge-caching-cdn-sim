@@ -17,7 +17,7 @@ services:
           memory: "1G"      # Limit to 512 MB of memory
         reservations:
           cpus: "1"         # Reserve 0.5 CPU core
-          memory: "512M"      # Reserve 256 MB of memory
+          memory: "1G"      # Reserve 256 MB of memory
 
   edge-server-1:
     image: nginx
@@ -31,11 +31,11 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "2"
+          memory: "2G"
+        reservations:
           cpus: "1"
           memory: "1G"
-        reservations:
-          cpus: "0.5"
-          memory: "512M"
 
   edge-server-2:
     image: nginx
@@ -49,11 +49,11 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "2"
+          memory: "2G"
+        reservations:
           cpus: "1"
           memory: "1G"
-        reservations:
-          cpus: "0.5"
-          memory: "512M"
 
   edge-server-3:
     image: nginx
@@ -67,11 +67,11 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "2"
+          memory: "2G"
+        reservations:
           cpus: "1"
           memory: "1G"
-        reservations:
-          cpus: "0.5"
-          memory: "512M"
 
   backend-server:
     image: node:20  # Use Node.js image
@@ -88,11 +88,11 @@ services:
     deploy:
       resources:
         limits:
+          cpus: "2"
+          memory: "2G"
+        reservations:
           cpus: "1"
           memory: "1G"
-        reservations:
-          cpus: "0.5"
-          memory: "512M"
 
 networks:
   cdn-network:
